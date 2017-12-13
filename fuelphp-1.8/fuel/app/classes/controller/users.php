@@ -4,15 +4,15 @@ class Controller_Users extends Controller_Base
     
     public function post_create()
     {
-        // try {
-            if ( ! isset($_POST['name']) || ! isset($_POST['password']) || ! isset($_POST['role'])) 
-            {
-                $json = $this->response(array(
-                    'code' => 400,
-                    'message' => 'parametro incorrecto'
-                ));
-                return $json;
-            }
+//        try {
+//            if ( ! isset($_POST['name']) || ! isset($_POST['password']) || ! isset($_POST['role'])) 
+//            {
+//                $json = $this->response(array(
+//                    'code' => 400,
+//                    'message' => 'parametro incorrecto'
+//                ));
+//                return $json;
+//            }
             
             $input = $_POST;
             $name = $input['name'];
@@ -38,15 +38,15 @@ class Controller_Users extends Controller_Base
                 'name' => $input['name'],
             ));
             return $json;
-        // } 
-        // catch (Exception $e) 
-        // {
-        //     $json = $this->response(array(
-        //         'code' => 500,
-        //         'message' => 'error interno del servidor',
-        //     ));
-        //     return $json;
-        // }
+//        } 
+//        catch (Exception $e) 
+//        {
+//            $json = $this->response(array(
+//                'code' => 500,
+//                'message' => 'error interno del servidor',
+//            ));
+//            return $json;
+//        }
         
     }
     public function get_users()
