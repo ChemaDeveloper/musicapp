@@ -19,7 +19,7 @@ class Model_Users extends Orm\Model
     protected static $_has_many = array(
     'list' => array(
         'key_from' => 'id',
-        'model_to' => 'Model_Users',
+        'model_to' => 'Model_Lists',
         'key_to' => 'id_user',
         'cascade_save' => true,
         'cascade_delete' => false,
