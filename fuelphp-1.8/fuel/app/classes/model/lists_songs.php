@@ -11,4 +11,5 @@ class Model_Lists_songs extends Orm\Model
             'data_type' => 'int'   
         )
     );
+    
 }

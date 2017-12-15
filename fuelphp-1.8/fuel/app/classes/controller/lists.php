@@ -175,4 +175,49 @@ class Controller_Lists extends Controller_Base
         }
         
     }
+    public function post_add_song()
+    {
+        $auth = self::authenticate();
+        if($auth == true)
+        {
+            // try {
+                if ( ! isset($_POST['id_song']) && ! isset($_POST['id_list'])) 
+                {
+                    $json = $this->response(array(
+                        'code' => 400,
+                        'message' => 'parametro incorrecto'
+                    ));
+                    return $json;
+                }
+                
+                $input = $_POST;
+                $id_song = $input['id_song'];
+                $id_list = $input['id_list'];
+                $decodedToken = self::decodeToken();
+
+                $list = Model_Lists::find($id_list);
+                if($list->id_user == $decodedToken->id)
+                {
+                    $list->song[] = Model_Songs::find($id_song);
+                    $list->save();
+                    $json = $this->response(array(
+                        'code' => 200,
+                        'message' => 'Cancion añadida',
+                    ));
+                    return $json;
+                }
+                
+            // } 
+            // catch (Exception $e) 
+            // {
+            //     $json = $this->response(array(
+            //         'code' => 500,
+            //         'message' => 'error interno del servidor',
+            //     ));
+            //     return $json;
+            // }
+        }
+        
+    }
+
 }
