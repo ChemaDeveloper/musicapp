@@ -41,6 +41,100 @@ class Controller_Lists extends Controller_Base
         }
         
     }
+    public function post_delete()
+    {   
+        $input = $_POST;   
+        $auth = self::authenticate();
+        if($auth == true)
+        {
+            if ( ! isset($_POST['id'])) 
+            {
+                $json = $this->response(array(
+                    'code' => 400,
+                    'message' => 'parametro incorrecto, se necesita que el parametro se llame id'
+                ));
+                return $json;
+            }
+            $list = Model_Lists::find($_POST['id']);
+            if(!empty($list))
+            {
+                $listName = $list->title;
+                $list->delete();
+            }
+            $json = $this->response(array(
+                'code' => 200,
+                'message' => 'lista borrada',
+                'name' => $listName,
+            ));
+            return $json;
+        }
+        else
+        {
+            $json = $this->response(array(
+                    'code' => 401,
+                    'message' => 'Usuarios no autenticado',
+            ));
+            return $json;
+        }
+    }
+    public function post_update()
+    {
+        $input = $_POST;   
+        $auth = self::authenticate();
+        if($auth == true)
+        {
+            if ( ! isset($_POST['id']) && ! isset($_POST['name']) ) 
+            {
+                $json = $this->response(array(
+                    'code' => 400,
+                    'message' => 'parametros incorrectos'
+                ));
+                return $json;
+            }
+            $id = $_POST['id'];
+            $updateList = Model_Lists::find($id);
+            $title = $_POST['name'];
+            if(!empty($updateList))
+            {
+
+
+                $decodedToken = self::decodeToken();
+                if($decodedToken->id == $updateList->id_user)
+                {
+                    $updateList->title = $title;
+                    $updateList->save();
+                    $json = $this->response(array(
+                    'code' => 200,
+                    'message' => 'lista actualizada',
+                    ));
+                }
+                else
+                {
+                    $json = $this->response(array(
+                        'code' => 401,
+                        'message' => 'No estas autorizado a cambiar esa lista'
+                    ));
+                    return $json;
+                }
+            }
+            else
+            {
+                $json = $this->response(array(
+                    'code' => 400,
+                    'message' => 'lista no encontrada'
+                ));
+                return $json;
+            }
+        }
+        else
+        {
+            $json = $this->response(array(
+                    'code' => 401,
+                    'message' => 'Usuario no autenticado',
+            ));
+            return $json;
+        }
+    }    
     public function get_private_lists()
     {   
         $auth = self::authenticate();

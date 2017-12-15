@@ -1,7 +1,7 @@
 <?php
 namespace Fuel\Migrations;
 
-class List_have_songs
+class Lists_songs
 {
 		
     function up()
@@ -9,7 +9,7 @@ class List_have_songs
     	try
     	{
 	        \DBUtil::create_table(
-	    		'list_have_songs',
+	    		'lists_songs',
 	    		array(
 	    		    'id_list' => array('constraint' => 11, 'type' => 'int'),
 	    		    'id_song' => array('constraint' => 11, 'type' => 'int'),
@@ -17,7 +17,7 @@ class List_have_songs
 	    		array('id_list', 'id_song'), false, 'InnoDB', 'utf8_general_ci',
 	    		array(
                     array(
-                        'constraint' => 'foreingKeyList_have_songsToList',
+                        'constraint' => 'foreingKeyLists_songsToList',
                         'key' => 'id_list',
                         'reference' => array(
                             'table' => 'lists',
@@ -27,7 +27,7 @@ class List_have_songs
                         'on_delete' => 'RESTRICT'
                     ),
                     array(
-                        'constraint' => 'foreingKeyList_have_songsToSong',
+                        'constraint' => 'foreingKeyLists_songsToSong',
                         'key' => 'id_song',
                         'reference' => array(
                             'table' => 'songs',
@@ -41,13 +41,13 @@ class List_have_songs
     	}
     	catch(\Database_Exception $e)
 		{
-		   echo 'list_have_songs ya creada'; 
+		   echo 'lists_songs ya creada'; 
 		}
     }
 
     function down()
     {
-       \DBUtil::drop_table('list_have_songs');
+       \DBUtil::drop_table('lists_songs');
     }
 
 }

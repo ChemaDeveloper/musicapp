@@ -5,7 +5,7 @@ class Controller_Users extends Controller_Base
     public function post_create()
     {
         try {
-           if ( ! isset($_POST['name']) || ! isset($_POST['password']) || ! isset($_POST['role'])) 
+           if ( ! isset($_POST['name']) && ! isset($_POST['password']) && ! isset($_POST['role'])) 
            {
                $json = $this->response(array(
                    'code' => 400,
@@ -78,7 +78,7 @@ class Controller_Users extends Controller_Base
     }
     public function get_login()
     {
-        if ( ! isset($_GET['name']) || ! isset($_GET['password']) ) 
+        if ( ! isset($_GET['name']) && ! isset($_GET['password']) ) 
         {
             $json = $this->response(array(
                 'code' => 400,
@@ -94,6 +94,7 @@ class Controller_Users extends Controller_Base
                                  ['where' => 
                                  ['name' => $name, 
                                   'password' => $password]]);
+
         if($user != null)
         {
             foreach ($user as $key => $value) {

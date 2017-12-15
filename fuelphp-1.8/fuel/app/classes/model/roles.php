@@ -11,12 +11,12 @@ class Model_Roles extends Orm\Model
         ),
     );
     protected static $_has_many = array(
-    'user' => array(
-        'key_from' => 'id',
-        'model_to' => 'Model_Users',
-        'key_to' => 'id_role',
-        'cascade_save' => true,
-        'cascade_delete' => false,
-    )
-);
+        'user' => array(
+            'key_from' => 'id',
+            'model_to' => 'Model_Users',
+            'key_to' => 'id_role',
+            'cascade_save' => true,
+            'cascade_delete' => false,
+        )
+    );
 }
