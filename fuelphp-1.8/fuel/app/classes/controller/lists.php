@@ -180,7 +180,7 @@ class Controller_Lists extends Controller_Base
         $auth = self::authenticate();
         if($auth == true)
         {
-            // try {
+            try {
                 if ( ! isset($_POST['id_song']) && ! isset($_POST['id_list'])) 
                 {
                     $json = $this->response(array(
@@ -207,15 +207,15 @@ class Controller_Lists extends Controller_Base
                     return $json;
                 }
                 
-            // } 
-            // catch (Exception $e) 
-            // {
-            //     $json = $this->response(array(
-            //         'code' => 500,
-            //         'message' => 'error interno del servidor',
-            //     ));
-            //     return $json;
-            // }
+            } 
+            catch (Exception $e) 
+            {
+                $json = $this->response(array(
+                    'code' => 500,
+                    'message' => 'error interno del servidor',
+                ));
+                return $json;
+            }
         }
         
     }
