@@ -10,6 +10,7 @@ return array(
         1 => '002_users',
         2 => '003_lists',
         3 => '004_songs',
+        4 => '005_list_have_songs',
       ),
     ),
     'module' => 
