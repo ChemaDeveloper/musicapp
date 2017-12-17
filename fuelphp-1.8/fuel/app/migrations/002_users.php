@@ -13,6 +13,7 @@ class Users
 	    		array(
 	    		    'id' => array('constraint' => 11, 'type' => 'int', 'auto_increment' => true),
 	    		    'name' => array('type' => 'text'),
+                    'email' => array('type' => 'text'),
 	    		    'password' => array('type' => 'text'),
 	    		    'id_role' => array('type' => 'int'),
 	    		),

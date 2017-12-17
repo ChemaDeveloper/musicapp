@@ -5,11 +5,12 @@ class Controller_Users extends Controller_Base
     public function post_create()
     {
         try {
-           if ( ! isset($_POST['name']) && ! isset($_POST['password']) && ! isset($_POST['role'])) 
+           if ( ! isset($_POST['name']) && ! isset($_POST['password']) && ! isset($_POST['role']) && ! isset($_POST['email'])) 
            {
                $json = $this->response(array(
                    'code' => 400,
-                   'message' => 'parametro incorrecto'
+                   'message' => 'parametro incorrecto',
+                   'data' => null,
                ));
                return $json;
            }
@@ -18,6 +19,7 @@ class Controller_Users extends Controller_Base
             $name = $input['name'];
             $password = $input['password'];
             $admin = $input['role'];
+            $email = $input['email'];
             if($admin == 'true')
             {
                 $role = 1;
@@ -26,16 +28,38 @@ class Controller_Users extends Controller_Base
             {
                 $role = 2;
             }
-
+            $userName = Model_Users::find('all', 
+                                 ['where' => 
+                                 ['name' => $name]]);
+            if (!empty($userName)) {
+                $json = $this->response(array(
+                    'code' => 400,
+                    'message' => 'Nombre de usuario ya escogido',
+                    'data' => null,
+                ));
+                return $json;
+            }
+            $userEmail = Model_Users::find('all', 
+                                 ['where' => 
+                                 ['email' => $email]]);
+            if (!empty($userEmail)) {
+                $json = $this->response(array(
+                    'code' => 400,
+                    'message' => 'Email ya usado',
+                    'data' => null,
+                ));
+                return $json;
+            }
             $user = new Model_Users();
             $user->name = $name;
             $user->password = $password;
+            $user->email = $email;
             $user->role = Model_Roles::find($role);
             $user->save();
             $json = $this->response(array(
                 'code' => 201,
                 'message' => 'usuario creado',
-                'name' => $input['name'],
+                'data' => ['name' => $input['name']],
             ));
             return $json;
        } 
@@ -44,6 +68,7 @@ class Controller_Users extends Controller_Base
            $json = $this->response(array(
                'code' => 500,
                'message' => 'error interno del servidor',
+               'data' => null,
            ));
            return $json;
        }
@@ -63,14 +88,15 @@ class Controller_Users extends Controller_Base
             $json = $this->response(array(
                     'code' => 200,
                     'message' => 'Usuarios de la app',
-                    'name' => $name,
-                    'id' => $id,
+                    'data' => ['name' => $name,
+                                'id' => $id,]
             ));
             return $json;
         }else{
             $json = $this->response(array(
                     'code' => 401,
                     'message' => 'Usuarios no autenticado',
+                    'data' => null,
             ));
             return $json;
         }
@@ -82,7 +108,8 @@ class Controller_Users extends Controller_Base
         {
             $json = $this->response(array(
                 'code' => 400,
-                'message' => 'parametro incorrecto'
+                'message' => 'parametro incorrecto',
+                'data' => null,
             ));
             return $json;
         }
@@ -99,21 +126,23 @@ class Controller_Users extends Controller_Base
         {
             foreach ($user as $key => $value) {
                 $id = $value->id;
-                $role = $value->id_role;
+                $id_role = $value->id_role;
+                $email = $value->email;
             }
             
-            $encodedToken = self::encodeToken($name, $password, $id, $role);
+            $encodedToken = self::encodeToken($name, $password, $id, $email, $id_role);
             
             $json = $this->response(array(
                 'code' => 200,
                 'message' => 'usuario logeado',
-                'token' => $encodedToken,
+                'data' => ['token' => $encodedToken],
             ));
             return $json;
         }else{
             $json = $this->response(array(
                 'code' => 401,
-                'message' => 'Usuario o contraseña incorrectos'
+                'message' => 'Usuario o contraseña incorrectos',
+                'data' => null,
             ));
         }
         
@@ -128,7 +157,8 @@ class Controller_Users extends Controller_Base
             {
                 $json = $this->response(array(
                     'code' => 400,
-                    'message' => 'parametro incorrecto, se necesita que el parametro se llame id'
+                    'message' => 'parametro incorrecto, se necesita que el parametro se llame id',
+                    'data' => null,
                 ));
                 return $json;
             }
@@ -140,7 +170,7 @@ class Controller_Users extends Controller_Base
             $json = $this->response(array(
                 'code' => 200,
                 'message' => 'usuario borrado',
-                'name' => $userName
+                'data' => null
             ));
             return $json;
         }
@@ -149,6 +179,7 @@ class Controller_Users extends Controller_Base
             $json = $this->response(array(
                     'code' => 401,
                     'message' => 'Usuarios no autenticado',
+                    'data' => null,
             ));
             return $json;
         }
@@ -163,7 +194,8 @@ class Controller_Users extends Controller_Base
             {
                 $json = $this->response(array(
                     'code' => 400,
-                    'message' => 'parametro incorrecto, se necesita que el parametro se llame id'
+                    'message' => 'parametro incorrecto, se necesita que el parametro se llame id',
+                    'data' => null,
                 ));
                 return $json;
             }
@@ -172,9 +204,10 @@ class Controller_Users extends Controller_Base
             $password = $user['password'];
             $json = $this->response(array(
                     'code' => 200,
-                    'message' => 'Usuario actualizando',
-                    'name' => $name,
-                    'password' => $password,
+                    'message' => 'Datos del usuario',
+                    'data' => ['name' => $name,
+                               'password' => $password],
+                    
             ));
             return $json;
         }
@@ -183,6 +216,7 @@ class Controller_Users extends Controller_Base
             $json = $this->response(array(
                     'code' => 401,
                     'message' => 'Usuarios no autenticado',
+                    'data' => null,
             ));
             return $json;
         }
@@ -197,7 +231,8 @@ class Controller_Users extends Controller_Base
             {
                 $json = $this->response(array(
                     'code' => 400,
-                    'message' => 'parametro incorrecto, se necesita que el parametro se llame id'
+                    'message' => 'parametro incorrecto, se necesitan todos los parametros',
+                    'data' => null,
                 ));
                 return $json;
             }
@@ -212,18 +247,19 @@ class Controller_Users extends Controller_Base
                 $decodedToken = self::decodeToken();
                 if($decodedToken->id == $id)
                 {
-                    $encodedToken = self::encodeToken($name, $password, $id, $decodedToken->role);
+                    $encodedToken = self::encodeToken($name, $password, $id, $decodedToken->email, $decodedToken->role);
                     $json = $this->response(array(
                     'code' => 200,
                     'message' => 'usuario y token actualizado',
-                    'token' => $encodedToken
+                    'data' => ['token' =>$encodedToken]
                     ));
                 }
                 else
                 {
                     $json = $this->response(array(
                         'code' => 200,
-                        'message' => 'usuario actualizado'
+                        'message' => 'usuario actualizado',
+                        'data' => null,
                     ));
                     return $json;
                 }
@@ -232,7 +268,8 @@ class Controller_Users extends Controller_Base
             {
                 $json = $this->response(array(
                     'code' => 400,
-                    'message' => 'usuario no encontrado'
+                    'message' => 'usuario no encontrado',
+                    'data' => null,
                 ));
                 return $json;
             }
@@ -242,6 +279,7 @@ class Controller_Users extends Controller_Base
             $json = $this->response(array(
                     'code' => 401,
                     'message' => 'Usuarios no autenticado',
+                    'data' => null,
             ));
             return $json;
         }

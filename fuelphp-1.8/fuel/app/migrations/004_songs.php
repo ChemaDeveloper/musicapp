@@ -13,6 +13,7 @@ class Songs
 	    		array(
 	    		    'id' => array('constraint' => 11, 'type' => 'int', 'auto_increment' => true),
 	    		    'title' => array('type' => 'text'),
+	    		    'artist' => array('type' => 'text'),
 	    		    'url' => array('type' => 'text'),
 	    		),
 	    		array('id'), false, 'InnoDB', 'utf8_general_ci'

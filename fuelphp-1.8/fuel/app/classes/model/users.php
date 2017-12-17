@@ -12,6 +12,9 @@ class Model_Users extends Orm\Model
         'password' => array(
             'data_type' => 'text'   
         ),
+        'email' => array(
+            'data_type' => 'text'   
+        ),
         'id_role' => array(
             'data_type' => 'int'   
         )

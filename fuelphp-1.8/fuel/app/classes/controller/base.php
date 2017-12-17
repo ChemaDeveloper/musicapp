@@ -3,12 +3,13 @@ use \Firebase\JWT\JWT;
 define('MY_KEY', 'tokens_key');
 class Controller_Base extends Controller_Rest
 {
-	protected function encodeToken($name, $password, $id, $id_role)
+	protected function encodeToken($name, $password, $id, $email, $id_role)
     {
         $token = array(
                 "name" => $name,
                 "password" => $password,
                 "id" => $id,
+                "email" => $email,
                 "role" => $id_role
         );
         $encodedToken = JWT::encode($token, MY_KEY);
@@ -34,6 +35,8 @@ class Controller_Base extends Controller_Rest
                 $query = Model_Users::find('all', 
                     ['where' => ['name' => $decodedToken->name, 
                                  'password' => $decodedToken->password, 
+                                 'id_role' => $decodedToken->role,
+                                 'email' => $decodedToken->email,
                                  'id' => $decodedToken->id]]);
                 if($query != null)
                 {

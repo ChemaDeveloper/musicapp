@@ -9,6 +9,9 @@ class Model_Songs extends Orm\Model
         'title' => array(
             'data_type' => 'text'   
         ),
+        'artist' => array(
+            'data_type' => 'text'   
+        ),
         'url' => array(
             'data_type' => 'text'   
         )

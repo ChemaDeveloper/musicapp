@@ -11,7 +11,8 @@ class Controller_Lists extends Controller_Base
                 {
                     $json = $this->response(array(
                         'code' => 400,
-                        'message' => 'parametro incorrecto'
+                        'message' => 'parametro incorrecto',
+                        'data' => null
                     ));
                     return $json;
                 }
@@ -27,6 +28,7 @@ class Controller_Lists extends Controller_Base
                 $json = $this->response(array(
                     'code' => 201,
                     'message' => 'lista creada',
+                    'data' => null
                 ));
                 return $json;
             } 
@@ -35,6 +37,7 @@ class Controller_Lists extends Controller_Base
                 $json = $this->response(array(
                     'code' => 500,
                     'message' => 'error interno del servidor',
+                    'data' => null
                 ));
                 return $json;
             }
@@ -51,7 +54,8 @@ class Controller_Lists extends Controller_Base
             {
                 $json = $this->response(array(
                     'code' => 400,
-                    'message' => 'parametro incorrecto, se necesita que el parametro se llame id'
+                    'message' => 'parametro incorrecto, se necesita que el parametro se llame id',
+                    'data' => null
                 ));
                 return $json;
             }
@@ -64,7 +68,7 @@ class Controller_Lists extends Controller_Base
             $json = $this->response(array(
                 'code' => 200,
                 'message' => 'lista borrada',
-                'name' => $listName,
+                'data' => ['name' => $listName]
             ));
             return $json;
         }
@@ -73,6 +77,7 @@ class Controller_Lists extends Controller_Base
             $json = $this->response(array(
                     'code' => 401,
                     'message' => 'Usuarios no autenticado',
+                    'data' => null
             ));
             return $json;
         }
@@ -87,7 +92,8 @@ class Controller_Lists extends Controller_Base
             {
                 $json = $this->response(array(
                     'code' => 400,
-                    'message' => 'parametros incorrectos'
+                    'message' => 'parametros incorrectos',
+                    'data' => null
                 ));
                 return $json;
             }
@@ -106,13 +112,16 @@ class Controller_Lists extends Controller_Base
                     $json = $this->response(array(
                     'code' => 200,
                     'message' => 'lista actualizada',
+                    'data' => null
                     ));
+                    return $json;
                 }
                 else
                 {
                     $json = $this->response(array(
                         'code' => 401,
-                        'message' => 'No estas autorizado a cambiar esa lista'
+                        'message' => 'No estas autorizado a cambiar esa lista',
+                        'data' => null
                     ));
                     return $json;
                 }
@@ -121,7 +130,8 @@ class Controller_Lists extends Controller_Base
             {
                 $json = $this->response(array(
                     'code' => 400,
-                    'message' => 'lista no encontrada'
+                    'message' => 'lista no encontrada',
+                    'data' => null
                 ));
                 return $json;
             }
@@ -131,6 +141,7 @@ class Controller_Lists extends Controller_Base
             $json = $this->response(array(
                     'code' => 401,
                     'message' => 'Usuario no autenticado',
+                    'data' => null
             ));
             return $json;
         }
@@ -155,7 +166,8 @@ class Controller_Lists extends Controller_Base
                $json = $this->response(array(
                     'code' => 200,
                     'message' => 'Listas privadas',
-                    'title' => $title,
+                    'data' => ['title' => $title, 
+                               'id' => $id]
                 )); 
             }         
             else
@@ -163,6 +175,7 @@ class Controller_Lists extends Controller_Base
                $json = $this->response(array(
                     'code' => 200,
                     'message' => 'Listas privadas vacias',
+                    'data' => null
                 ));  
             }
             return $json;
@@ -170,6 +183,7 @@ class Controller_Lists extends Controller_Base
             $json = $this->response(array(
                     'code' => 401,
                     'message' => 'Usuarios no autenticado',
+                    'data' => null
             ));
             return $json;
         }
@@ -185,7 +199,8 @@ class Controller_Lists extends Controller_Base
                 {
                     $json = $this->response(array(
                         'code' => 400,
-                        'message' => 'parametro incorrecto'
+                        'message' => 'parametro incorrecto',
+                        'data' => null
                     ));
                     return $json;
                 }
@@ -203,6 +218,7 @@ class Controller_Lists extends Controller_Base
                     $json = $this->response(array(
                         'code' => 200,
                         'message' => 'Cancion añadida',
+                        'data' => null
                     ));
                     return $json;
                 }
@@ -213,6 +229,7 @@ class Controller_Lists extends Controller_Base
                 $json = $this->response(array(
                     'code' => 500,
                     'message' => 'error interno del servidor',
+                    'data' => null
                 ));
                 return $json;
             }
