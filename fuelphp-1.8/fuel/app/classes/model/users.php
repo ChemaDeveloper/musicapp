@@ -25,7 +25,7 @@ class Model_Users extends Orm\Model
             'model_to' => 'Model_Lists',
             'key_to' => 'id_user',
             'cascade_save' => true,
-            'cascade_delete' => false,
+            'cascade_delete' => true,
         )
     );
     protected static $_belongs_to = array(

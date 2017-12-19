@@ -227,7 +227,7 @@ class Controller_Users extends Controller_Base
         $auth = self::authenticate();
         if($auth == true)
         {
-            if ( ! isset($_POST['id']) || ! isset($_POST['name']) || ! isset($_POST['password']) ) 
+            if ( ! isset($_POST['id']) ) 
             {
                 $json = $this->response(array(
                     'code' => 400,
@@ -237,14 +237,29 @@ class Controller_Users extends Controller_Base
                 return $json;
             }
             $id = $_POST['id'];
+            $decodedToken = self::decodeToken();
             $updateUser = Model_Users::find($id);
-            $name = $_POST['name'];
-            $password = $_POST['password'];
-            if(!empty($updateUser)){
-                $updateUser->name = $name;
-                $updateUser->password = $password;
+            if(!empty($updateUser) && $decodedToken->role == 1){
+                if (isset($_POST['name'])) 
+                {
+                    $name = $input['name'];
+                    $updateUser->name = $name;
+                }
+                else
+                {
+                    $name = $decodedToken->name;
+                }
+                if (isset($_POST['password'])) 
+                {
+                    $password = $input['password'];
+                    $updateUser->password = $password;
+                }
+                else
+                {
+                    $password = $decodedToken->password;
+                }
                 $updateUser->save();
-                $decodedToken = self::decodeToken();
+                
                 if($decodedToken->id == $id)
                 {
                     $encodedToken = self::encodeToken($name, $password, $id, $decodedToken->email, $decodedToken->role);
@@ -268,7 +283,7 @@ class Controller_Users extends Controller_Base
             {
                 $json = $this->response(array(
                     'code' => 400,
-                    'message' => 'usuario no encontrado',
+                    'message' => 'usuario no encontrado o no estas autorizado a actualizarlo',
                     'data' => null,
                 ));
                 return $json;

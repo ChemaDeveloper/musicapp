@@ -84,8 +84,6 @@ class Controller_Songs extends Controller_Base
         if($auth == true)
         {
             try {
-                
-                
                 $songs = Model_Songs::find('all');
 	            $indexedSongs = Arr::reindex($songs);
 	            foreach ($indexedSongs as $key => $song) {

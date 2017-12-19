@@ -26,8 +26,8 @@ class Users
                             'table' => 'roles',
                             'column' => 'id',
                         ),
-                        'on_update' => 'RESTRICT',
-                        'on_delete' => 'RESTRICT'
+                        'on_update' => 'CASCADE',
+                        'on_delete' => 'CASCADE'
                     )
                 )
 			);
