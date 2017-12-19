@@ -7,7 +7,7 @@ class Controller_Songs extends Controller_Base
         if($auth == true)
         {
             try {
-                if ( ! isset($_POST['title']) && ! isset($_POST['artist']) && ! isset($_POST['url'])) 
+                if ( ! isset($_POST['title']) || ! isset($_POST['artist']) || ! isset($_POST['url'])) 
                 {
                     $json = $this->response(array(
                         'code' => 400,

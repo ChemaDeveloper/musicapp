@@ -88,7 +88,7 @@ class Controller_Lists extends Controller_Base
         $auth = self::authenticate();
         if($auth == true)
         {
-            if ( ! isset($_POST['id']) && ! isset($_POST['name']) ) 
+            if ( ! isset($_POST['id']) || ! isset($_POST['name']) ) 
             {
                 $json = $this->response(array(
                     'code' => 400,
@@ -195,7 +195,7 @@ class Controller_Lists extends Controller_Base
         if($auth == true)
         {
             try {
-                if ( ! isset($_POST['id_song']) && ! isset($_POST['id_list'])) 
+                if ( ! isset($_POST['id_song']) || ! isset($_POST['id_list'])) 
                 {
                     $json = $this->response(array(
                         'code' => 400,
