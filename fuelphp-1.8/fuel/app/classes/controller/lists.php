@@ -158,16 +158,10 @@ class Controller_Lists extends Controller_Base
             
             if($lists != null)
             {
-                $indexedLists = Arr::reindex($lists);
-                foreach ($indexedLists as $key => $list) {
-                    $title[] = $list->title;
-                    $id[] = $list->id;
-                }
                $json = $this->response(array(
                     'code' => 200,
                     'message' => 'Listas privadas',
-                    'data' => ['title' => $title, 
-                               'id' => $id]
+                    'data' => ['lists' => $lists]
                 )); 
             }         
             else

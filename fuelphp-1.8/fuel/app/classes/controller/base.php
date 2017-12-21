@@ -61,12 +61,14 @@ class Controller_Base extends Controller_Rest
             $json = $this->response(array(
                     'code' => 200,
                     'message' => 'Usuario autenticado',
+                    'data' => null
             ));
             return $json;
         }else{
             $json = $this->response(array(
                     'code' => 401,
                     'message' => 'Usuarios no autenticado',
+                    'data' => null
             ));
             return $json;
         }

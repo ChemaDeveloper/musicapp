@@ -59,7 +59,7 @@ class Controller_Users extends Controller_Base
             $json = $this->response(array(
                 'code' => 201,
                 'message' => 'usuario creado',
-                'data' => ['name' => $input['name']],
+                'data' => ['name' => $name],
             ));
             return $json;
        } 
@@ -88,8 +88,7 @@ class Controller_Users extends Controller_Base
             $json = $this->response(array(
                     'code' => 200,
                     'message' => 'Usuarios de la app',
-                    'data' => ['name' => $name,
-                                'id' => $id,]
+                    'data' => ['users' => $users]
             ));
             return $json;
         }else{
@@ -200,16 +199,25 @@ class Controller_Users extends Controller_Base
                 return $json;
             }
             $user = Model_Users::find($_GET['id']);
-            $name = $user['name'];
-            $password = $user['password'];
-            $json = $this->response(array(
-                    'code' => 200,
-                    'message' => 'Datos del usuario',
-                    'data' => ['name' => $name,
-                               'password' => $password],
-                    
-            ));
-            return $json;
+            if($user != null)
+            {
+                $json = $this->response(array(
+                        'code' => 200,
+                        'message' => 'Datos del usuario',
+                        'data' => ['user' => $user],
+                ));
+                return $json;
+            }
+            else
+            {
+                $json = $this->response(array(
+                        'code' => 400,
+                        'message' => 'Usuario no encontrado',
+                        'data' => null,
+                ));
+                return $json;
+            }
+            
         }
         else
         {

@@ -33,7 +33,9 @@ class Controller_Songs extends Controller_Base
 	                return $json;
 	            }
 	            $decodedToken = self::decodeToken();
-                if($decodedToken->role == 1)
+                $role = Model_Roles::find($decodedToken->role);
+                
+                if($role->name == 'admin')
                 {
 	                $song = new Model_Songs();
 	                $song->title = $title;
@@ -85,20 +87,11 @@ class Controller_Songs extends Controller_Base
         {
             try {
                 $songs = Model_Songs::find('all');
-	            $indexedSongs = Arr::reindex($songs);
-	            foreach ($indexedSongs as $key => $song) {
-	                $title[] = $song->title;
-	                $artist[] = $song->artist;
-	                $url[] = $song->url;
-	                $id[] = $song->id;
-	            }
+	     
                 $json = $this->response(array(
                     'code' => 200,
                     'message' => 'Canciones en la app',
-                    'data' => ['title' => $title,
-                    		   'artist' => $artist,
-			                   'url' => $url,
-			                   'id' => $id]
+                    'data' => ['songs' => $songs]
                 ));
                 return $json;
             } 
@@ -143,7 +136,9 @@ class Controller_Songs extends Controller_Base
             if(!empty($updateSong))
             {
                 $decodedToken = self::decodeToken();
-                if($decodedToken->role == 1)
+                $role = Model_Roles::find($decodedToken->role);
+
+                if($role->name == 'admin')
                 {
                     if(isset($_POST['title']))
 	            	{
@@ -229,7 +224,9 @@ class Controller_Songs extends Controller_Base
                 return $json;
             }
             $decodedToken = self::decodeToken();
-            if($decodedToken->role == 1)
+            $role = Model_Roles::find($decodedToken->role);
+                
+            if($role->name == 'admin')
             {
 	            $song = Model_Songs::find($_POST['id']);
 	            if(!empty($song))
