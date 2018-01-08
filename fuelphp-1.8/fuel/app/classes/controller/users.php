@@ -1,11 +1,10 @@
 <?php 
 class Controller_Users extends Controller_Base
 {
-    
     public function post_create()
     {
         try {
-           if ( ! isset($_POST['name']) || ! isset($_POST['password']) || ! isset($_POST['role']) || ! isset($_POST['email'])) 
+           if ( ! isset($_POST['name']) || ! isset($_POST['password']) || ! isset($_POST['email'])) 
            {
                $json = $this->response(array(
                    'code' => 400,
@@ -18,16 +17,7 @@ class Controller_Users extends Controller_Base
             $input = $_POST;
             $name = $input['name'];
             $password = $input['password'];
-            $admin = $input['role'];
             $email = $input['email'];
-            if($admin == 'true')
-            {
-                $role = 1;
-            }
-            else
-            {
-                $role = 2;
-            }
             $userName = Model_Users::find('all', 
                                  ['where' => 
                                  ['name' => $name]]);
@@ -54,7 +44,7 @@ class Controller_Users extends Controller_Base
             $user->name = $name;
             $user->password = $password;
             $user->email = $email;
-            $user->role = Model_Roles::find($role);
+            $user->role = Model_Roles::find(2);
             $user->save();
             $json = $this->response(array(
                 'code' => 201,

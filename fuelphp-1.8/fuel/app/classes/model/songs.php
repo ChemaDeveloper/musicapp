@@ -14,7 +14,10 @@ class Model_Songs extends Orm\Model
         ),
         'url' => array(
             'data_type' => 'text'   
-        )
+        ),
+        'reproduced' => array(
+            'data_type' => 'int'   
+        ),
     );
     protected static $_many_many = array(
         'list' => array(

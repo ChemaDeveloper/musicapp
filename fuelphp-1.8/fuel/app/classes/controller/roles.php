@@ -1,5 +1,5 @@
 <?php 
-class Controller_Roles extends Controller_Base
+class Controller_Roles extends Controller_Base //sin uso 
 {
 	public function post_config()
     {   

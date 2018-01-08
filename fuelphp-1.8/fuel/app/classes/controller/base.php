@@ -3,6 +3,40 @@ use \Firebase\JWT\JWT;
 define('MY_KEY', 'tokens_key');
 class Controller_Base extends Controller_Rest
 {
+    public function post_config(){
+        $admin = Model_Users::find('all',
+                                    ['where' => ['name' => 'admin']]);
+        if(empty($admin))
+        {
+            $adminRole = new Model_Roles();
+            $adminRole->name = "admin";
+            $adminRole->save();
+            $userRole = new Model_Roles();
+            $userRole->name = "user";
+            $userRole->save();
+            $admin = new Model_Users();
+            $admin->name = "admin";
+            $admin->password = "1234";
+            $admin->email = "admin@admin.es";
+            $admin->role = Model_Roles::find(1);
+            $admin->save();
+            $json = $this->response(array(
+                'code' => 201,
+                'message' => 'Configuración terminada correctamente',
+                'data' => $admin,
+            ));
+            return $json;
+        }
+        else
+        {
+            $json = $this->response(array(
+                'code' => 401,
+                'message' => 'Configuración ya implementada anteriormente',
+                'data' => null,
+            ));
+            return $json;
+        }
+    }
 	protected function encodeToken($name, $password, $id, $email, $id_role)
     {
         $token = array(
