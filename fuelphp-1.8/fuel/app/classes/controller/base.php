@@ -11,6 +11,7 @@ class Controller_Base extends Controller_Rest
             $adminRole = new Model_Roles();
             $adminRole->name = "admin";
             $adminRole->save();
+            
             $userRole = new Model_Roles();
             $userRole->name = "user";
             $userRole->save();
@@ -18,7 +19,7 @@ class Controller_Base extends Controller_Rest
             $admin->name = "admin";
             $admin->password = "1234";
             $admin->email = "admin@admin.es";
-            $admin->role = Model_Roles::find(1);
+            $admin->role = Model_Roles::find($adminRole->id);
             $admin->save();
             $json = $this->response(array(
                 'code' => 201,
